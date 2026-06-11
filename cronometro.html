@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cronômetro Alien</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        text-align: center;
+        font-family: Arial;
+        padding-top: 50px;
+      }
+      h1 {
+        color: red;
+        font-size: 40px;
+      }
+      #tempo {
+        font-size: 80px;
+        color: red;
+        margin: 30px 0;
+      }
+      button {
+        font-size: 20px;
+        padding: 10px 30px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>⏱️ Cronômetro Alien</h1>
+    <p>Quanto tempo falta para os aliens chegarem?</p>
+    <div id="tempo">00:00</div>
+    <button onclick="iniciar()">▶ Iniciar</button>
+    <button onclick="pausar()">⏸ Pausar</button>
+    <button onclick="zerar()">🔄 Zerar</button>
+
+    <script>
+      var segundos = 0;
+      var intervalo = null;
+
+      function iniciar() {
+        if (intervalo == null) {
+          intervalo = setInterval(function() {
+            segundos++;
+            var min = Math.floor(segundos / 60);
+            var seg = segundos % 60;
+            document.getElementById("tempo").innerHTML =
+              (min < 10 ? "0" + min : min) + ":" +
+              (seg < 10 ? "0" + seg : seg);
+          }, 1000);
+        }
+      }
+
+      function pausar() {
+        clearInterval(intervalo);
+        intervalo = null;
+      }
+
+      function zerar() {
+        clearInterval(intervalo);
+        intervalo = null;
+        segundos = 0;
+        document.getElementById("tempo").innerHTML = "00:00";
+      }
+    </script>
+  </body>
+</html>
