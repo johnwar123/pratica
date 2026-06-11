@@ -67,9 +67,32 @@
     <p>GOV. BR</p>
     <button onclick="alerta()">Saiba Mais</button>
 
+    <audio id="musica" autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <button onclick="tocarPausar()" style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    ">🔊</button>
+
     <script>
       function alerta() {
         alert("Os aliens chegam em 24 horas! Fuja!")
+      }
+
+      function tocarPausar() {
+        var musica = document.getElementById("musica");
+        if (musica.paused) {
+          musica.play();
+        } else {
+          musica.pause();
+        }
       }
     </script>
   </body>
