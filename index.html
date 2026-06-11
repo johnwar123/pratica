@@ -66,6 +66,9 @@
     <h1>Povo da terra! Estamos diante de um grande acontecimento mundial: a terra está sendo invadida por aliens!</h1>
     <p>GOV. BR</p>
     <button onclick="alerta()">Saiba Mais</button>
+    <p style="color: white; font-size: 25px;">
+      Alertas enviados: <span id="contador">0</span>
+    </p>
 
     <audio id="musica" autoplay loop>
       <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
@@ -82,7 +85,11 @@
     ">🔊</button>
 
     <script>
+      var count = 0;
+
       function alerta() {
+        count++;
+        document.getElementById("contador").innerText = count;
         alert("Os aliens chegam em 24 horas! Fuja!")
       }
 
