@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adivinhe o Número</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        text-align: center;
+        font-family: Arial;
+        padding-top: 50px;
+      }
+      h1 {
+        color: red;
+        font-size: 40px;
+      }
+      input {
+        font-size: 25px;
+        padding: 10px;
+        width: 150px;
+        text-align: center;
+        border-radius: 5px;
+        border: none;
+        margin: 10px;
+      }
+      button {
+        font-size: 20px;
+        padding: 10px 30px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      #resultado {
+        font-size: 30px;
+        margin-top: 20px;
+      }
+      #tentativas {
+        color: yellow;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>👽 Jogo Alien</h1>
+    <p>Adivinhe o número que o alien está pensando!</p>
+    <p>Entre 1 e 10</p>
+    <input type="number" id="palpite" min="1" max="10">
+    <br>
+    <button onclick="adivinhar()">Adivinhar</button>
+    <button onclick="reiniciar()">Reiniciar</button>
+    <p id="resultado"></p>
+    <p id="tentativas"></p>
+
+    <script>
+      var numeroSecreto = Math.floor(Math.random() * 10) + 1;
+      var tentativas = 0;
+
+      function adivinhar() {
+        var palpite = parseInt(document.getElementById("palpite").value);
+        tentativas++;
+
+        if (palpite == numeroSecreto) {
+          document.getElementById("resultado").innerHTML = "🎉 Acertou em " + tentativas + " tentativas!";
+          document.getElementById("resultado").style.color = "green";
+        } else if (palpite < numeroSecreto) {
+          document.getElementById("resultado").innerHTML = "📈 Tente um número maior!";
+          document.getElementById("resultado").style.color = "yellow";
+        } else {
+          document.getElementById("resultado").innerHTML = "📉 Tente um número menor!";
+          document.getElementById("resultado").style.color = "orange";
+        }
+
+        document.getElementById("tentativas").innerHTML = "Tentativas: " + tentativas;
+      }
+
+      function reiniciar() {
+        numeroSecreto = Math.floor(Math.random() * 10) + 1;
+        tentativas = 0;
+        document.getElementById("palpite").value = "";
+        document.getElementById("resultado").innerHTML = "";
+        document.getElementById("tentativas").innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
