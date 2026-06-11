@@ -24,6 +24,10 @@
         color: red;
         margin-top: 50px;
       }
+      h2 {
+        color: red;
+        margin-top: 40px;
+      }
       input, textarea {
         width: 80%;
         padding: 10px;
@@ -42,6 +46,53 @@
         margin-top: 10px;
         border-radius: 5px;
       }
+      button:hover {
+        background-color: darkred;
+      }
+      .mensagens-container {
+        margin-top: 40px;
+        text-align: left;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .mensagem-item {
+        background-color: #222;
+        border-left: 4px solid red;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .mensagem-nome {
+        color: red;
+        font-weight: bold;
+      }
+      .mensagem-texto {
+        color: white;
+        margin-top: 10px;
+      }
+      .mensagem-data {
+        color: #888;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .btn-deletar {
+        background-color: #cc0000;
+        padding: 5px 15px;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+      .btn-limpar-tudo {
+        background-color: #cc0000;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      .vazio {
+        color: #888;
+        font-style: italic;
+        margin-top: 20px;
+      }
     </style>
   </head>
   <body>
@@ -50,6 +101,7 @@
       <a href="sobre.html">Sobre</a>
       <a href="contato.html">Contato</a>
     </nav>
+    
     <h1>📩 Contato</h1>
     <p>Mande sua mensagem sobre os aliens!</p>
 
@@ -59,16 +111,119 @@
     <br>
     <button onclick="enviar()">Enviar</button>
 
+    <!-- Seção de Mensagens Recebidas -->
+    <h2>📨 Mensagens Recebidas</h2>
+    <div class="mensagens-container" id="mensagensContainer">
+      <p class="vazio">Nenhuma mensagem ainda...</p>
+    </div>
+    <button class="btn-limpar-tudo" onclick="limparTodas()">Limpar Todas as Mensagens</button>
+
     <script>
-      function enviar() {
-        var nome = document.getElementById("nome").value;
-        var mensagem = document.getElementById("mensagem").value;
-        if (nome == "" || mensagem == "") {
-          alert("Preencha todos os campos!")
-        } else {
-          alert("Obrigado " + nome + "! Mensagem recebida!")
+      // Carregar mensagens ao abrir a página
+      function carregarMensagens() {
+        var mensagensJSON = localStorage.getItem('mensagensAliens');
+        var mensagens = [];
+        
+        if (mensagensJSON) {
+          mensagens = JSON.parse(mensagensJSON);
+        }
+        
+        var container = document.getElementById('mensagensContainer');
+        container.innerHTML = '';
+        
+        if (mensagens.length === 0) {
+          container.innerHTML = '<p class="vazio">Nenhuma mensagem ainda...</p>';
+          return;
+        }
+        
+        // Mostrar mensagens em ordem inversa (mais recentes primeiro)
+        for (var i = mensagens.length - 1; i >= 0; i--) {
+          var msg = mensagens[i];
+          var html = '<div class="mensagem-item">' +
+                       '<span class="mensagem-nome">' + escapeHtml(msg.nome) + '</span>' +
+                       '<div class="mensagem-texto">' + escapeHtml(msg.texto) + '</div>' +
+                       '<div class="mensagem-data">' + msg.data + '</div>' +
+                       '<button class="btn-deletar" onclick="deletarMensagem(' + i + ')">Deletar</button>' +
+                     '</div>';
+          container.innerHTML += html;
         }
       }
+      
+      function enviar() {
+        var nome = document.getElementById('nome').value;
+        var mensagem = document.getElementById('mensagem').value;
+        
+        if (nome == "" || mensagem == "") {
+          alert("Preencha todos os campos!")
+          return;
+        }
+        
+        // Pegar mensagens existentes
+        var mensagensJSON = localStorage.getItem('mensagensAliens');
+        var mensagens = [];
+        
+        if (mensagensJSON) {
+          mensagens = JSON.parse(mensagensJSON);
+        }
+        
+        // Criar data e hora atual
+        var agora = new Date();
+        var data = agora.toLocaleString('pt-BR');
+        
+        // Adicionar nova mensagem
+        mensagens.push({
+          nome: nome,
+          texto: mensagem,
+          data: data
+        });
+        
+        // Salvar no localStorage
+        localStorage.setItem('mensagensAliens', JSON.stringify(mensagens));
+        
+        // Limpar formulário
+        document.getElementById('nome').value = '';
+        document.getElementById('mensagem').value = '';
+        
+        // Mostrar confirmação
+        alert("Obrigado " + nome + "! Mensagem recebida!");
+        
+        // Recarregar lista de mensagens
+        carregarMensagens();
+      }
+      
+      function deletarMensagem(index) {
+        if (!confirm("Tem certeza que deseja deletar esta mensagem?")) {
+          return;
+        }
+        
+        var mensagensJSON = localStorage.getItem('mensagensAliens');
+        var mensagens = JSON.parse(mensagensJSON);
+        
+        mensagens.splice(index, 1);
+        localStorage.setItem('mensagensAliens', JSON.stringify(mensagens));
+        
+        carregarMensagens();
+      }
+      
+      function limparTodas() {
+        if (!confirm("Tem certeza que deseja DELETAR TODAS as mensagens? Esta ação não pode ser desfeita!")) {
+          return;
+        }
+        
+        localStorage.removeItem('mensagensAliens');
+        carregarMensagens();
+        alert("Todas as mensagens foram deletadas!");
+      }
+      
+      // Função para escapar HTML (segurança)
+      function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+      
+      // Carregar mensagens quando a página abre
+      carregarMensagens();
     </script>
   </body>
 </html>
