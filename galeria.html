@@ -34,16 +34,19 @@
         gap: 20px;
         padding: 30px;
       }
-      .galeria img {
+      .card {
         width: 250px;
         height: 200px;
-        object-fit: cover;
         border: 3px solid red;
         border-radius: 10px;
+        font-size: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         transition: transform 0.3s;
       }
-      .galeria img:hover {
+      .card:hover {
         transform: scale(1.1);
       }
     </style>
@@ -61,17 +64,17 @@
     <p>Fotos capturadas pelos agentes do GOV.BR</p>
 
     <div class="galeria">
-    
-  <div style="width:250px; height:200px; border:3px solid red; border-radius:10px; font-size:80px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="ampliar(this)">👽</div>
-  <div style="width:250px; height:200px; border:3px solid red; border-radius:10px; font-size:80px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="ampliar(this)">🛸</div>
-  <div style="width:250px; height:200px; border:3px solid red; border-radius:10px; font-size:80px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="ampliar(this)">🌍</div>
-
+      <div class="card" onclick="ampliar(this)">👽</div>
+      <div class="card" onclick="ampliar(this)">🛸</div>
+      <div class="card" onclick="ampliar(this)">🌍</div>
+      <div class="card" onclick="ampliar(this)">🔭</div>
+      <div class="card" onclick="ampliar(this)">👾</div>
+      <div class="card" onclick="ampliar(this)">🚀</div>
     </div>
 
     <script>
-      function ampliar(img) {
-        img.style.width = img.style.width == "400px" ? "250px" : "400px";
-        img.style.height = img.style.height == "350px" ? "200px" : "350px";
+      function ampliar(card) {
+        card.style.transform = card.style.transform == "scale(1.5)" ? "scale(1)" : "scale(1.5)";
       }
     </script>
   </body>
