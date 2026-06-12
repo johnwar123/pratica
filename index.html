@@ -4,6 +4,16 @@
     <title>GRANDE NOTÍCIA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+      .modo-claro {
+  background-color: white !important;
+  color: black !important;
+}
+.modo-claro h1 {
+  color: darkred !important;
+}
+.modo-claro p {
+  color: black !important;
+}
       body {
         background-color: black;
         color: red;
@@ -83,6 +93,15 @@
   <a href="jogo.html">Jogo</a>
   <a href="cronometro.html">Cronômetro</a>
   <a href="galeria.html">Galeria</a>
+  <button onclick="mudarModo()" style="
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  font-size: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+">🌙</button>
     </nav>
     <div class="alien">👽</div>
     <h1>Povo da terra! Estamos diante de um grande acontecimento mundial: a terra está sendo invadida por aliens!</h1>
@@ -107,6 +126,11 @@
     ">🔊</button>
 
     <script>
+      function mudarModo() {
+  document.body.classList.toggle("modo-claro");
+  var btn = document.querySelector("button[onclick='mudarModo()']");
+  btn.innerHTML = document.body.classList.contains("modo-claro") ? "☀️" : "🌙";
+}
       var count = 0;
 
       function alerta() {
